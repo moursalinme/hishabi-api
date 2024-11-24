@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hishabi.api.dto.response.ApiResponse;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.service.UserService;
 
@@ -22,19 +23,18 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
-        // TODO: implement this
+    public ResponseEntity<ApiResponse<List<UserResponseDto>>> getAllUsers() {
+        return ApiResponse.success(200, userService.getAllUsers());
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        // TODO: implement this
+    public ResponseEntity<ApiResponse<UserResponseDto>> getUserById(@PathVariable Long id) {
+        return ApiResponse.success(200, userService.getUserById(id));
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
-        // TODO: Implement the deletion logic
-        return ResponseEntity.noContent().build(); // Example response
+    public ResponseEntity<ApiResponse<Object>> deleteUserById(@PathVariable Long id) {
+        return ApiResponse.success(200, null);
     }
 
 }

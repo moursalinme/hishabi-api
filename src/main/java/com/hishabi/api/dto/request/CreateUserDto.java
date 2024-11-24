@@ -27,4 +27,6 @@ public class CreateUserDto {
     @Size(min = 6, message = "Password must be at least 6 chars.")
     private String password;
 
+    private String role;
+
 }

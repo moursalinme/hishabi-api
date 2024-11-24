@@ -1,9 +1,11 @@
 package com.hishabi.api.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.hishabi.api.Mapper.Mapper;
 import com.hishabi.api.dto.request.CreateUserDto;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.repository.UserRepository;
@@ -19,8 +21,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> getAllUsers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
+        return userRepository.findAll()
+                .stream()
+                .map(user -> Mapper.toUserResponseDto(user))
+                .collect(Collectors.toList());
     }
 
     @Override

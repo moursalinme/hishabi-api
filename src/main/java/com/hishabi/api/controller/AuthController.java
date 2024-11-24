@@ -32,8 +32,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<UserResponseDto>> handleLogin(@RequestBody LoginRequestDto user) {
         // TODO: process POST request
-
-        return user;
+        return ApiResponse.failure("Route not implemented yet.", 500, null);
     }
 
 }

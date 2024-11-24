@@ -26,6 +26,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody CreateUserDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_USER");
         return ApiResponse.success(201, userService.createUser(user));
     }
 

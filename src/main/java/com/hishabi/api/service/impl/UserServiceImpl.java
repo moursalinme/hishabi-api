@@ -1,5 +1,6 @@
 package com.hishabi.api.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,8 +47,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto createUser(CreateUserDto user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createUser'");
+        UserEntity userEntity = UserEntity.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .createdAt(new Date())
+                .build();
+        return Mapper.toUserResponseDto(userRepository.save(userEntity));
     }
 
     @Override

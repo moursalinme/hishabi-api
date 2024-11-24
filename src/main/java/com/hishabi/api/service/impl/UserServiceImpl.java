@@ -1,6 +1,7 @@
 package com.hishabi.api.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.hishabi.api.Mapper.Mapper;
 import com.hishabi.api.dto.request.CreateUserDto;
 import com.hishabi.api.dto.response.UserResponseDto;
+import com.hishabi.api.entity.UserEntity;
 import com.hishabi.api.repository.UserRepository;
 import com.hishabi.api.service.UserService;
 
@@ -29,8 +31,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUserById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserById'");
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return Mapper.toUserResponseDto(user.get());
     }
 
     @Override

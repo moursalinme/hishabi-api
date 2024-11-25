@@ -13,6 +13,7 @@ import com.hishabi.api.dto.response.ApiResponse;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,14 +25,14 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody UserRequestDto user) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody @Valid UserRequestDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         return ApiResponse.success(201, userService.createUser(user));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserResponseDto>> handleLogin(@RequestBody LoginRequestDto user) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> handleLogin(@RequestBody @Valid LoginRequestDto user) {
         // TODO: process POST request
         return ApiResponse.failure("Route not implemented yet.", 500, null);
     }

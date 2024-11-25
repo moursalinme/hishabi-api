@@ -6,9 +6,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hishabi.api.Mapper.Mapper;
+import com.hishabi.api.dto.request.LoginRequestDto;
 import com.hishabi.api.dto.request.UserRequestDto;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.entity.UserEntity;
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserResponseDto> getAllUsers() {
@@ -65,6 +68,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserResponseDto authenticateUser(LoginRequestDto loginReq) {
+        UserEntity user = userRepository.findByEmail(loginReq.getEmail());
+        if (user == null ||
+                !passwordEncoder.matches(loginReq.getPassword(), user.getPassword())) {
+            throw new UsernameNotFoundException("Incorrect Email or Password.");
+        }
+        return Mapper.toUserResponseDto(user);
     }
 
 }

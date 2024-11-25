@@ -11,7 +11,7 @@ import com.hishabi.api.dto.request.LoginRequestDto;
 import com.hishabi.api.dto.request.UserRequestDto;
 import com.hishabi.api.dto.response.ApiResponse;
 import com.hishabi.api.dto.response.UserResponseDto;
-import com.hishabi.api.service.UserService;
+import com.hishabi.api.service.AuthService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +21,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody @Valid UserRequestDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
-        return ApiResponse.success(201, userService.createUser(user));
+        UserResponseDto userResponseDto = authService.handleRegister(user);
+        return ApiResponse.success(201, userResponseDto);
     }
 
     @PostMapping("/login")

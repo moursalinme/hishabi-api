@@ -12,6 +12,7 @@ public class Mapper {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .createdAt(user.getCreatedAt())
+                .role(user.getRole())
                 .build();
     }
 }

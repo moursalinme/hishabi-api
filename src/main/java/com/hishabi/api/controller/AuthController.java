@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hishabi.api.config.Jwt.JwtService;
 import com.hishabi.api.dto.request.LoginRequestDto;
 import com.hishabi.api.dto.request.UserRequestDto;
 import com.hishabi.api.dto.response.ApiResponse;
+import com.hishabi.api.dto.response.RegistrationResponse;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.service.AuthService;
 
@@ -23,13 +25,19 @@ public class AuthController {
 
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody @Valid UserRequestDto user) {
+    public ResponseEntity<ApiResponse<RegistrationResponse>> registerUser(@RequestBody @Valid UserRequestDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         UserResponseDto userResponseDto = authService.handleRegister(user);
-        return ApiResponse.success(201, userResponseDto);
+        String jwt = jwtService.generateToken(userResponseDto);
+        RegistrationResponse response = RegistrationResponse.builder()
+                .jwt(jwt)
+                .user(userResponseDto)
+                .build();
+        return ApiResponse.success(201, response);
     }
 
     @PostMapping("/login")

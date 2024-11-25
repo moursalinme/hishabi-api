@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
-import com.hishabi.api.dto.request.UserRequestDto;
+import com.hishabi.api.dto.response.UserResponseDto;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,7 +19,7 @@ public class JwtService {
     private final static String JwtSECRET = "324fa68ec33e3a0cd9211e42e56c2b7260cea7bbbcae91091d07b2a35c9378a3";
     private final static Long JwtEXP = 1000 * 60 * 60L; // 1hr
 
-    public String generateToken(UserRequestDto user) {
+    public String generateToken(UserResponseDto user) {
         return Jwts.builder()
                 .setIssuer("hishabi_api")
                 .setSubject(user.getEmail())

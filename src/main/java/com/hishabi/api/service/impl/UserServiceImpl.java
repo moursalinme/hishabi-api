@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.hishabi.api.Mapper.Mapper;
-import com.hishabi.api.dto.request.CreateUserDto;
+import com.hishabi.api.dto.request.UserRequestDto;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.entity.UserEntity;
 import com.hishabi.api.repository.UserRepository;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto createUser(CreateUserDto user) {
+    public UserResponseDto createUser(UserRequestDto user) {
         UserEntity userEntity = UserEntity.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())

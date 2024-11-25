@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CreateUserDto {
+public class UserRequestDto {
 
     @NotBlank(message = "You must provide a first name.")
     @Size(min = 3, max = 20, message = "First name must be between 3 to 20 chars")

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hishabi.api.dto.request.CreateUserDto;
 import com.hishabi.api.dto.request.LoginRequestDto;
+import com.hishabi.api.dto.request.UserRequestDto;
 import com.hishabi.api.dto.response.ApiResponse;
 import com.hishabi.api.dto.response.UserResponseDto;
 import com.hishabi.api.service.UserService;
@@ -24,7 +24,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody CreateUserDto user) {
+    public ResponseEntity<ApiResponse<UserResponseDto>> registerUser(@RequestBody UserRequestDto user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         return ApiResponse.success(201, userService.createUser(user));

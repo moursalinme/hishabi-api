@@ -1,0 +1,34 @@
+services:
+    postgres:
+        container_name: postgres_git
+        image: postgres:17-alpine
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: 123456
+            POSTGRES_DB: hishabi_api_dev
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres:/var/lib/postgres/data
+        networks:
+            - hishabi_api_net
+
+    spring-boot-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: hishabi_api_dc
+        image: hishabi_api
+        ports:
+            - "8080:8080"
+        networks:
+            - hishabi_api_net
+        depends_on:
+            - postgres
+
+volumes:
+    postgres:
+
+networks:
+    hishabi_api_net:
+        driver: bridge

@@ -33,7 +33,7 @@ public class AppConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/api/v1/login", "/api/v1/register").permitAll();
+                    request.requestMatchers("/api/v1/login", "/api/v1/register", "/api-docs").permitAll();
                     request.anyRequest().authenticated();
                 })
                 .cors(config -> config.configurationSource(corsConfigurationSource()))

@@ -28,9 +28,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponseDto handleLogin(LoginRequestDto user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleLogin'");
+    public UserResponseDto handleLogin(LoginRequestDto loginReq) {
+        UserResponseDto user = userService.authenticateUser(loginReq);
+        addPrincipalToSecurityContext(user);
+        return user;
     }
 
     private void addPrincipalToSecurityContext(UserResponseDto user) {

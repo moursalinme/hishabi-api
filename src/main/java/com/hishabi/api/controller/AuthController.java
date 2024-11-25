@@ -1,6 +1,11 @@
 package com.hishabi.api.controller;
 
+import java.util.HashMap;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,9 +46,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<UserResponseDto>> handleLogin(@RequestBody @Valid LoginRequestDto user) {
-        // TODO: process POST request
-        return ApiResponse.failure("Route not implemented yet.", 500, null);
+    public ResponseEntity<ApiResponse<Object>> handleLogin(@RequestBody @Valid LoginRequestDto loginReq) {
+        UserResponseDto user;
+        try {
+            user = authService.handleLogin(loginReq);
+        } catch (UsernameNotFoundException ex) {
+            throw new BadCredentialsException("Invalid email or password.");
+        }
+        HashMap<String, String> token = new HashMap<>();
+        token.put("jwt", jwtService.generateToken(user));
+        return ApiResponse.success("User Login successful.", HttpStatus.OK.value(),
+                token);
     }
 
 }

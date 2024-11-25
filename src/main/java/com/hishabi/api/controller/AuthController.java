@@ -53,8 +53,9 @@ public class AuthController {
         } catch (UsernameNotFoundException ex) {
             throw new BadCredentialsException("Invalid email or password.");
         }
-        HashMap<String, String> token = new HashMap<>();
+        HashMap<String, Object> token = new HashMap<>();
         token.put("jwt", jwtService.generateToken(user));
+        token.put("user", user);
         return ApiResponse.success("User Login successful.", HttpStatus.OK.value(),
                 token);
     }

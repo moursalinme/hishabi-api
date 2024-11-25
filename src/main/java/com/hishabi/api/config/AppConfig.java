@@ -19,7 +19,8 @@ public class AppConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> {
-                    request.anyRequest().permitAll();
+                    request.requestMatchers("/api/v1/login", "/api/v1/register").permitAll();
+                    request.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();

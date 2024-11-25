@@ -1,5 +1,9 @@
 package com.hishabi.api.service.impl;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.hishabi.api.dto.request.LoginRequestDto;
@@ -18,7 +22,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponseDto handleRegister(UserRequestDto user) {
-        return userService.createUser(user);
+        UserResponseDto userResponse = userService.createUser(user);
+        addPrincipalToSecurityContext(userResponse);
+        return userResponse;
     }
 
     @Override
@@ -27,4 +33,12 @@ public class AuthServiceImpl implements AuthService {
         throw new UnsupportedOperationException("Unimplemented method 'handleLogin'");
     }
 
+    private void addPrincipalToSecurityContext(UserResponseDto user) {
+        Authentication authToken = new UsernamePasswordAuthenticationToken(
+                user.getEmail(),
+                null,
+                AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole()));
+
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+    }
 }

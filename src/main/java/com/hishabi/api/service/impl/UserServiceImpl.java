@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hishabi.api.Mapper.Mapper;
@@ -41,8 +42,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto getUserByEmail(String email) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserByEmail'");
+        UserEntity user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid email or password.");
+        }
+        return Mapper.toUserResponseDto(user);
     }
 
     @Override

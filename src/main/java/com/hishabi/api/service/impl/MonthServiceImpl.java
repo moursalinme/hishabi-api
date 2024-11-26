@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.hishabi.api.Mapper.Mapper;
 import com.hishabi.api.dto.request.MonthRequestDto;
 import com.hishabi.api.dto.response.MonthResponseDto;
 import com.hishabi.api.dto.response.UserResponseDto;
@@ -50,10 +51,12 @@ public class MonthServiceImpl implements MonthService {
                 .balance(0.0)
                 .updatedAt(LocalDateTime.now())
                 .build();
+
         logger.info("Before {}", monthEntity);
         monthEntity = monthRepository.save(monthEntity);
         logger.info("After {}", monthEntity);
-        return null;
+
+        return Mapper.toMonthResponseDto(monthEntity);
     }
 
     @Override

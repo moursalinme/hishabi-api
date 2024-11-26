@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MonthResponseDto {
 
-    private Integer id;
+    private Long id;
 
     private Integer month;
 

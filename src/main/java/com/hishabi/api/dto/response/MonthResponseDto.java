@@ -15,7 +15,7 @@ public class MonthResponseDto {
 
     private Integer id;
 
-    private Long month;
+    private Integer month;
 
     private Integer year;
 

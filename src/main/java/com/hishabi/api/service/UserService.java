@@ -2,7 +2,8 @@ package com.hishabi.api.service;
 
 import java.util.List;
 
-import com.hishabi.api.dto.request.CreateUserDto;
+import com.hishabi.api.dto.request.LoginRequestDto;
+import com.hishabi.api.dto.request.UserRequestDto;
 import com.hishabi.api.dto.response.UserResponseDto;
 
 public interface UserService {
@@ -13,7 +14,9 @@ public interface UserService {
 
     UserResponseDto getUserByEmail(String email);
 
-    UserResponseDto createUser(CreateUserDto user);
+    UserResponseDto createUser(UserRequestDto user);
+
+    UserResponseDto authenticateUser(LoginRequestDto loginReq);
 
     void deleteUserById(Long id);
 

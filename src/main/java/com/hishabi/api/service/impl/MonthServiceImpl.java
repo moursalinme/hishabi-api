@@ -32,11 +32,7 @@ public class MonthServiceImpl implements MonthService {
 
     @Override
     public MonthResponseDto createRecord(MonthRequestDto date) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("From security Context: {}", authentication.toString());
-
-        UserResponseDto user = userService.getUserByEmail(authentication.getPrincipal().toString());
+        UserResponseDto user = getPrincipleUserDto();
 
         if (monthRepository.existsByUser_IdAndMonthAndYear(user.getId(), date.getMonth(), date.getYear())) {
             throw new RuntimeException("Can not create record. Already Exists for this month.");
@@ -73,8 +69,20 @@ public class MonthServiceImpl implements MonthService {
 
     @Override
     public MonthResponseDto getSingleMonth(MonthRequestDto date) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSingleMonth'");
+        UserResponseDto user = getPrincipleUserDto();
+
+        if (!monthRepository.existsByUser_IdAndMonthAndYear(user.getId(), date.getMonth(), date.getYear())) {
+            throw new RuntimeException("No record created by you this month of the year.");
+        }
+        MonthEntity monthEntity = monthRepository.findByUser_IdAndMonthAndYear(user.getId(), date.getMonth(),
+                date.getYear());
+        return Mapper.toMonthResponseDto(monthEntity);
+    }
+
+    private UserResponseDto getPrincipleUserDto() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("From security Context: {}", authentication.toString());
+        return userService.getUserByEmail(authentication.getPrincipal().toString());
     }
 
 }

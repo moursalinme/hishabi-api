@@ -30,10 +30,18 @@ public class MonthController {
     private final MonthService monthService;
     private final Logger logger = LoggerFactory.getLogger(MonthController.class);
 
-    @GetMapping("/month-records")
+    @PostMapping("/month-records/single")
     public ResponseEntity<ApiResponse<MonthResponseDto>> getSingleRecord(
-            @RequestBody @Valid MonthRequestDto date) {
-        throw new NotImplementedException("not implemented yet.");
+            @Valid @RequestBody MonthRequestDto date) {
+
+        logger.info("date provided: {}", date);
+        MonthResponseDto response;
+        try {
+            response = monthService.getSingleMonth(date);
+        } catch (Exception ex) {
+            return ApiResponse.failure(ex.getMessage(), 409, null);
+        }
+        return ApiResponse.success(201, response);
     }
 
     @PostMapping("/month-records")

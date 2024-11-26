@@ -10,5 +10,5 @@ public interface MonthRepository extends JpaRepository<MonthEntity, Long> {
 
     boolean existsByUser_IdAndMonthAndYear(Long userId, Integer month, Integer year);
 
-    MonthEntity FindByUser_IdAndMonthAndYear(Long userId, Integer month, Integer year);
+    MonthEntity findByUser_IdAndMonthAndYear(Long userId, Integer month, Integer year);
 }

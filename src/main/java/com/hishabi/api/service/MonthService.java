@@ -7,6 +7,8 @@ public interface MonthService {
 
     MonthResponseDto createRecord(MonthRequestDto date);
 
+    MonthResponseDto getSingleMonth(MonthRequestDto date);
+
     MonthResponseDto updateBalance(Double newBalance);
 
     void deleteRecord(MonthRequestDto date);

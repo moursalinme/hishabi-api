@@ -71,4 +71,10 @@ public class MonthServiceImpl implements MonthService {
         throw new UnsupportedOperationException("Unimplemented method 'deleteRecord'");
     }
 
+    @Override
+    public MonthResponseDto getSingleMonth(MonthRequestDto date) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSingleMonth'");
+    }
+
 }

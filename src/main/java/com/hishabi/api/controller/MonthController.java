@@ -2,7 +2,6 @@ package com.hishabi.api.controller;
 
 import java.util.List;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +69,6 @@ public class MonthController {
 
     @GetMapping("/month-records/all")
     public ResponseEntity<ApiResponse<List<MonthResponseDto>>> getAllRecords() {
-        throw new NotImplementedException("not implemented yet.");
+        return ApiResponse.success(200, monthService.getAllRecordsByPrincipal());
     }
 }

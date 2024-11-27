@@ -1,7 +1,9 @@
 package com.hishabi.api.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +96,16 @@ public class MonthServiceImpl implements MonthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         logger.info("From security Context: {}", authentication.toString());
         return userService.getUserByEmail(authentication.getPrincipal().toString());
+    }
+
+    @Override
+    public List<MonthResponseDto> getAllRecordsByPrincipal() {
+        UserResponseDto user = getPrincipleUserDto();
+
+        return monthRepository.findAllByUser_id(user.getId())
+                .stream()
+                .map(Mapper::toMonthResponseDto)
+                .collect(Collectors.toList());
     }
 
 }

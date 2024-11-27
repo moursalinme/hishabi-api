@@ -1,5 +1,7 @@
 package com.hishabi.api.service;
 
+import java.util.List;
+
 import com.hishabi.api.dto.request.MonthRequestDto;
 import com.hishabi.api.dto.response.MonthResponseDto;
 
@@ -10,6 +12,8 @@ public interface MonthService {
     MonthResponseDto getSingleMonth(MonthRequestDto date);
 
     MonthResponseDto updateBalance(Double newBalance);
+
+    List<MonthResponseDto> getAllRecordsByPrincipal();
 
     void deleteRecordById(Long id);
 }

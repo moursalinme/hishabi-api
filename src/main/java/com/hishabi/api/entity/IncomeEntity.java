@@ -1,6 +1,5 @@
 package com.hishabi.api.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,7 +39,7 @@ public class IncomeEntity {
     private String source;
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    private Double amount;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

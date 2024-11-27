@@ -8,4 +8,6 @@ import com.hishabi.api.entity.PaymentMethodEntity;
 @Repository
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethodEntity, Long> {
 
+    boolean existsByName(String name);
+
 }

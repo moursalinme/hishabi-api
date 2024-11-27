@@ -31,6 +31,9 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public PaymentMethodResponseDto addPaymentMethod(String name) {
         PaymentMethodEntity paymentMethodEntity = PaymentMethodEntity.builder().name(name).build();
+        if (paymentMethodRepository.existsByName(name)) {
+            return null;
+        }
         return Mapper.toPaymentMethodResponseDto(paymentMethodRepository.save(paymentMethodEntity));
     }
 

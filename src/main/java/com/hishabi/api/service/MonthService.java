@@ -11,5 +11,5 @@ public interface MonthService {
 
     MonthResponseDto updateBalance(Double newBalance);
 
-    void deleteRecord(MonthRequestDto date);
+    void deleteRecordById(Long id);
 }

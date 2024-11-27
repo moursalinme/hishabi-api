@@ -1,12 +1,14 @@
 package com.hishabi.api.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hishabi.api.Mapper.Mapper;
 import com.hishabi.api.dto.request.MonthRequestDto;
@@ -19,6 +21,7 @@ import com.hishabi.api.service.MonthService;
 import com.hishabi.api.service.UserService;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -62,9 +65,17 @@ public class MonthServiceImpl implements MonthService {
     }
 
     @Override
-    public void deleteRecord(MonthRequestDto date) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteRecord'");
+    @Transactional
+    public void deleteRecordById(Long id) {
+        Optional<MonthEntity> monthlyentity = monthRepository.findById(id);
+        if (!monthlyentity.isPresent()) {
+            throw new EntityNotFoundException("No records exits with that id.");
+        }
+        UserResponseDto user = getPrincipleUserDto();
+        if (monthlyentity.get().getUser().getId() != user.getId()) {
+            throw new EntityNotFoundException("No records found with this id for this user.");
+        }
+        monthRepository.deleteById(id);
     }
 
     @Override

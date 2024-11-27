@@ -108,4 +108,19 @@ public class MonthServiceImpl implements MonthService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public MonthResponseDto getRecordById(Long id) {
+        Optional<MonthEntity> monthEntity = monthRepository.findById(id);
+        if (!monthEntity.isPresent()) {
+            throw new EntityNotFoundException("Record Does not exist.");
+        }
+        UserResponseDto user = getPrincipleUserDto();
+
+        if (user.getId() != monthEntity.get().getUser().getId()) {
+            throw new RuntimeException("Access denied. You are unauthorized to access this record.");
+        }
+
+        return Mapper.toMonthResponseDto(monthEntity.get());
+    }
+
 }

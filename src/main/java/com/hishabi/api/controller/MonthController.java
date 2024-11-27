@@ -39,9 +39,20 @@ public class MonthController {
         try {
             response = monthService.getSingleMonth(date);
         } catch (Exception ex) {
-            return ApiResponse.failure(ex.getMessage(), 409, null);
+            return ApiResponse.failure(ex.getMessage(), 403, null);
         }
         return ApiResponse.success(201, response);
+    }
+
+    @GetMapping("/month-records/{id}")
+    public ResponseEntity<ApiResponse<MonthResponseDto>> getRecordById(@PathVariable Long id) {
+        MonthResponseDto response;
+        try {
+            response = monthService.getRecordById(id);
+        } catch (Exception ex) {
+            return ApiResponse.failure(ex.getMessage(), 403, null);
+        }
+        return ApiResponse.success(200, response);
     }
 
     @PostMapping("/month-records")

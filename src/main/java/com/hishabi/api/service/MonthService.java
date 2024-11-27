@@ -13,6 +13,8 @@ public interface MonthService {
 
     MonthResponseDto updateBalance(Double newBalance);
 
+    MonthResponseDto getRecordById(Long id);
+
     List<MonthResponseDto> getAllRecordsByPrincipal();
 
     void deleteRecordById(Long id);

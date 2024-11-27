@@ -2,6 +2,8 @@ package com.hishabi.api.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +42,7 @@ public class UserEntity {
     @Column(nullable = false)
     private String role;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(updatable = false)
     private Date createdAt;
 }

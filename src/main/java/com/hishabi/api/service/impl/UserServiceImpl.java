@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public List<UserResponseDto> getAllUsers() {
@@ -78,6 +83,13 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("Incorrect Email or Password.");
         }
         return Mapper.toUserResponseDto(user);
+    }
+
+    @Override
+    public UserResponseDto getPrincipleUserDto() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        logger.info("From security Context: {}", authentication.toString());
+        return getUserByEmail(authentication.getPrincipal().toString());
     }
 
 }

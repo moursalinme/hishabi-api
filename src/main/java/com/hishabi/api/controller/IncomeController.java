@@ -1,6 +1,8 @@
 package com.hishabi.api.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,15 @@ public class IncomeController {
     public ResponseEntity<ApiResponse<IncomeResponseDto>> createIncomeRecord(
             @RequestBody @Valid IncomeRequestDto income) {
         return ApiResponse.success(201, incomeService.createIncomeRecord(income));
+    }
+
+    @DeleteMapping("/income/{id}")
+    public ResponseEntity<ApiResponse<Object>> deleteIncomeById(@PathVariable Long id) {
+        if (id <= 0) {
+            return ApiResponse.failure("Invalid Id.", 400, null);
+        }
+        incomeService.deleteIncomeById(id);
+        return ApiResponse.success(200, null);
     }
 
 }

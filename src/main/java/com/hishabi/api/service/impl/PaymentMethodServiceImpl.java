@@ -37,4 +37,9 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
         return Mapper.toPaymentMethodResponseDto(paymentMethodRepository.save(paymentMethodEntity));
     }
 
+    @Override
+    public boolean existById(Long id) {
+        return paymentMethodRepository.findById(id).isPresent();
+    }
+
 }

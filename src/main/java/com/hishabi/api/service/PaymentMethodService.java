@@ -9,4 +9,6 @@ public interface PaymentMethodService {
     List<PaymentMethodResponseDto> getAllPaymentMethods();
 
     PaymentMethodResponseDto addPaymentMethod(String name);
+
+    boolean existById(Long id);
 }

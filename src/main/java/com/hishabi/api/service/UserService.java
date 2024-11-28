@@ -18,6 +18,8 @@ public interface UserService {
 
     UserResponseDto authenticateUser(LoginRequestDto loginReq);
 
+    UserResponseDto getPrincipleUserDto();
+
     void deleteUserById(Long id);
 
 }

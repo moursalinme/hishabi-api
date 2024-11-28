@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +35,7 @@ public class MonthServiceImpl implements MonthService {
 
     @Override
     public MonthResponseDto createRecord(MonthRequestDto date) {
-        UserResponseDto user = getPrincipleUserDto();
+        UserResponseDto user = userService.getPrincipleUserDto();
 
         if (monthRepository.existsByUser_IdAndMonthAndYear(user.getId(), date.getMonth(), date.getYear())) {
             throw new RuntimeException("Can not create record. Already Exists for this month.");
@@ -73,7 +71,7 @@ public class MonthServiceImpl implements MonthService {
         if (!monthlyentity.isPresent()) {
             throw new EntityNotFoundException("No records exits with that id.");
         }
-        UserResponseDto user = getPrincipleUserDto();
+        UserResponseDto user = userService.getPrincipleUserDto();
         if (monthlyentity.get().getUser().getId() != user.getId()) {
             throw new EntityNotFoundException("No records found with this id for this user.");
         }
@@ -82,7 +80,7 @@ public class MonthServiceImpl implements MonthService {
 
     @Override
     public MonthResponseDto getSingleMonth(MonthRequestDto date) {
-        UserResponseDto user = getPrincipleUserDto();
+        UserResponseDto user = userService.getPrincipleUserDto();
 
         if (!monthRepository.existsByUser_IdAndMonthAndYear(user.getId(), date.getMonth(), date.getYear())) {
             throw new RuntimeException("No record created by you this month of the year.");
@@ -92,15 +90,9 @@ public class MonthServiceImpl implements MonthService {
         return Mapper.toMonthResponseDto(monthEntity);
     }
 
-    private UserResponseDto getPrincipleUserDto() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        logger.info("From security Context: {}", authentication.toString());
-        return userService.getUserByEmail(authentication.getPrincipal().toString());
-    }
-
     @Override
     public List<MonthResponseDto> getAllRecordsByPrincipal() {
-        UserResponseDto user = getPrincipleUserDto();
+        UserResponseDto user = userService.getPrincipleUserDto();
 
         return monthRepository.findAllByUser_id(user.getId())
                 .stream()
@@ -114,7 +106,7 @@ public class MonthServiceImpl implements MonthService {
         if (!monthEntity.isPresent()) {
             throw new EntityNotFoundException("Record Does not exist.");
         }
-        UserResponseDto user = getPrincipleUserDto();
+        UserResponseDto user = userService.getPrincipleUserDto();
 
         if (user.getId() != monthEntity.get().getUser().getId()) {
             throw new RuntimeException("Access denied. You are unauthorized to access this record.");

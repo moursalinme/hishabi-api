@@ -1,7 +1,10 @@
 package com.hishabi.api.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +44,7 @@ public class IncomeController {
             return ApiResponse.failure("Invalid Id.", 400, null);
         }
         incomeService.deleteIncomeById(id);
-        return ApiResponse.success(200, null);
+        return ApiResponse.success("Deleted Income record with id: " + id, 200, null);
     }
 
     @PatchMapping("/income/{id}")
@@ -53,6 +56,14 @@ public class IncomeController {
         }
 
         return ApiResponse.success(200, incomeService.updateIncomeById(income, id));
+    }
+
+    @GetMapping("/income/{monthId}")
+    public ResponseEntity<ApiResponse<List<IncomeResponseDto>>> getAllIncomesByMonthId(@PathVariable Long monthId) {
+        if (monthId <= 0) {
+            ApiResponse.failure("Invalid Month id.", 400, null);
+        }
+        return ApiResponse.success(200, incomeService.getAllIncomesByMonthId(monthId));
     }
 
 }

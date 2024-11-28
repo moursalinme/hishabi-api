@@ -1,8 +1,10 @@
 package com.hishabi.api.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,6 +105,18 @@ public class IncomeServiceImpl implements IncomeService {
         incomeEntity = incomeRepository.save(incomeEntity);
         incomeEntity.setUpdatedAt(LocalDateTime.now());
         return Mapper.toIncomeResponseDto(incomeEntity);
+    }
+
+    @Override
+    public List<IncomeResponseDto> getAllIncomesByMonthId(Long monthId) {
+
+        monthService.getRecordById(monthId);
+
+        return incomeRepository.findAllByMonth_id(monthId)
+                .stream()
+                .map(Mapper::toIncomeResponseDto)
+                .collect(Collectors.toList());
+
     }
 
 }

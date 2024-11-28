@@ -11,7 +11,7 @@ public interface MonthService {
 
     MonthResponseDto getSingleMonth(MonthRequestDto date);
 
-    MonthResponseDto updateBalance(Double newBalance);
+    MonthResponseDto updateBalance(Long id, Double newBalance);
 
     MonthResponseDto getRecordById(Long id);
 

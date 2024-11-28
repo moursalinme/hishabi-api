@@ -59,9 +59,11 @@ public class MonthServiceImpl implements MonthService {
     }
 
     @Override
-    public MonthResponseDto updateBalance(Double newBalance) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateBalance'");
+    public MonthResponseDto updateBalance(Long id, Double newBalance) {
+        MonthEntity monthEntity = monthRepository.findById(id).get();
+        monthEntity.setBalance(monthEntity.getBalance() + newBalance);
+        monthRepository.save(monthEntity);
+        return Mapper.toMonthResponseDto(monthEntity);
     }
 
     @Override

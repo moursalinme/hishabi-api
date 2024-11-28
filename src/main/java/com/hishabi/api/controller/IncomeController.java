@@ -2,6 +2,7 @@ package com.hishabi.api.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +23,15 @@ import lombok.RequiredArgsConstructor;
 public class IncomeController {
 
     private final IncomeService incomeService;
+    // private final Logger logger =
+    // LoggerFactory.getLogger(IncomeController.class);
 
     @PostMapping("/income")
     public ResponseEntity<ApiResponse<IncomeResponseDto>> createIncomeRecord(
             @RequestBody @Valid IncomeRequestDto income) {
+        if (income.getAmount() <= 0) {
+            return ApiResponse.failure("Income must be more than 0.", 400, null);
+        }
         return ApiResponse.success(201, incomeService.createIncomeRecord(income));
     }
 
@@ -36,6 +42,17 @@ public class IncomeController {
         }
         incomeService.deleteIncomeById(id);
         return ApiResponse.success(200, null);
+    }
+
+    @PatchMapping("/income/{id}")
+    public ResponseEntity<ApiResponse<IncomeResponseDto>> updateIncomeById(@RequestBody @Valid IncomeRequestDto income,
+            @PathVariable Long id) {
+
+        if (income.getAmount() <= 0) {
+            return ApiResponse.failure("Income must be more than 0.", 400, null);
+        }
+
+        return ApiResponse.success(200, incomeService.updateIncomeById(income, id));
     }
 
 }

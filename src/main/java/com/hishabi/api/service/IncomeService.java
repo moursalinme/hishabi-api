@@ -7,6 +7,8 @@ public interface IncomeService {
 
     IncomeResponseDto createIncomeRecord(IncomeRequestDto data);
 
+    IncomeResponseDto updateIncomeById(IncomeRequestDto newIncomeData, Long id);
+
     void deleteIncomeById(Long id);
 
 }

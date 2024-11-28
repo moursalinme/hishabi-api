@@ -2,6 +2,7 @@ package com.hishabi.api.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +70,39 @@ public class IncomeServiceImpl implements IncomeService {
 
         monthService.updateBalance(incomeEntity.getMonth().getId(), -incomeEntity.getAmount());
         incomeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public IncomeResponseDto updateIncomeById(IncomeRequestDto newIncomeData, Long id) {
+        IncomeEntity incomeEntity = incomeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No income record found with that id."));
+
+        if (!incomeEntity.getMonth().getUser().getId().equals(userService.getPrincipleUserDto().getId())) {
+            throw new RuntimeException("Access denied. This record is not yours to modify.");
+        }
+
+        if (newIncomeData.getPaymentMethodId() != null
+                && !newIncomeData.getPaymentMethodId().equals(incomeEntity.getPaymentMethod().getId())
+                && paymentMethodService.existById(newIncomeData.getPaymentMethodId())) {
+            incomeEntity.setPaymentMethod(entityManager
+                    .getReference(PaymentMethodEntity.class, newIncomeData.getPaymentMethodId()));
+        } else {
+            throw new RuntimeException("Payment id not valid.");
+        }
+
+        if (newIncomeData.getAmount() != null && !newIncomeData.getAmount().equals(incomeEntity.getAmount())) {
+            monthService.updateBalance(incomeEntity.getMonth().getId(),
+                    newIncomeData.getAmount() - incomeEntity.getAmount());
+            incomeEntity.setAmount(newIncomeData.getAmount());
+        }
+
+        Optional.ofNullable(newIncomeData.getSource())
+                .ifPresent(incomeEntity::setSource);
+
+        incomeEntity = incomeRepository.save(incomeEntity);
+        incomeEntity.setUpdatedAt(LocalDateTime.now());
+        return Mapper.toIncomeResponseDto(incomeEntity);
     }
 
 }

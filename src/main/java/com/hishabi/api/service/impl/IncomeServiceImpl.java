@@ -45,6 +45,7 @@ public class IncomeServiceImpl implements IncomeService {
 
         IncomeEntity incomeEntity = IncomeEntity.builder()
                 .month(entityManager.getReference(MonthEntity.class, data.getMonthId()))
+                .day(data.getDay())
                 .source(data.getSource())
                 .paymentMethod(entityManager.getReference(PaymentMethodEntity.class, data.getPaymentMethodId()))
                 .amount(data.getAmount())

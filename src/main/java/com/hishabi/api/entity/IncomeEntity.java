@@ -36,6 +36,9 @@ public class IncomeEntity {
     private MonthEntity month;
 
     @Column(nullable = false)
+    private Integer day;
+
+    @Column(nullable = false)
     private String source;
 
     @Column(nullable = false)

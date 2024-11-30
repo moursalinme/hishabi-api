@@ -43,6 +43,7 @@ public class Mapper {
     public static IncomeResponseDto toIncomeResponseDto(IncomeEntity income) {
         return IncomeResponseDto.builder()
                 .id(income.getId())
+                .day(income.getDay())
                 .source(income.getSource())
                 .amount(income.getAmount())
                 .paymentMethod(toPaymentMethodResponseDto(income.getPaymentMethod()))

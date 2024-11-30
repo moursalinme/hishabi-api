@@ -15,6 +15,8 @@ public class IncomeResponseDto {
 
     private Long id;
 
+    private Integer day;
+
     private String source;
 
     private Double amount;

@@ -11,7 +11,7 @@ public interface ExpenseService {
 
     ExpenseResponseDto updateExpenseById(ExpenseRequestDto reqData, Long id);
 
-    List<ExpenseResponseDto> getAllIncomesByMonthId(Long monthId);
+    List<ExpenseResponseDto> getAllExpenseByMonthId(Long monthId);
 
     void deleteIncomeById(Long id);
 

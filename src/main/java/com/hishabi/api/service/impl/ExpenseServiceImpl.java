@@ -93,7 +93,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseResponseDto> getAllIncomesByMonthId(Long monthId) {
+    public List<ExpenseResponseDto> getAllExpenseByMonthId(Long monthId) {
         monthService.getRecordById(monthId);
 
         return expenseRepository.findAllByMonth_id(monthId)

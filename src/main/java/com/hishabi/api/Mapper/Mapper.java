@@ -1,9 +1,11 @@
 package com.hishabi.api.Mapper;
 
+import com.hishabi.api.dto.response.ExpenseResponseDto;
 import com.hishabi.api.dto.response.IncomeResponseDto;
 import com.hishabi.api.dto.response.MonthResponseDto;
 import com.hishabi.api.dto.response.PaymentMethodResponseDto;
 import com.hishabi.api.dto.response.UserResponseDto;
+import com.hishabi.api.entity.ExpenseEntity;
 import com.hishabi.api.entity.IncomeEntity;
 import com.hishabi.api.entity.MonthEntity;
 import com.hishabi.api.entity.PaymentMethodEntity;
@@ -49,6 +51,18 @@ public class Mapper {
                 .paymentMethod(toPaymentMethodResponseDto(income.getPaymentMethod()))
                 .createdAt(income.getCreatedAt())
                 .updatedAt(income.getUpdatedAt())
+                .build();
+    }
+
+    public static ExpenseResponseDto toExpenseResponseDto(ExpenseEntity expense) {
+        return ExpenseResponseDto.builder()
+                .id(expense.getId())
+                .day(expense.getDay())
+                .source(expense.getSource())
+                .amount(expense.getAmount())
+                .paymentMethod(toPaymentMethodResponseDto(expense.getPaymentMethod()))
+                .createdAt(expense.getCreatedAt())
+                .updatedAt(expense.getUpdatedAt())
                 .build();
     }
 }

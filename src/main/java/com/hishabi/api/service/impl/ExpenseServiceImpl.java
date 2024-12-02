@@ -63,7 +63,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Transactional
     public ExpenseResponseDto updateExpenseById(ExpenseRequestDto reqData, Long id) {
         ExpenseEntity expenseEntity = expenseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No income record found with that id."));
+                .orElseThrow(() -> new RuntimeException("No expense record found with that id."));
 
         if (!expenseEntity.getMonth().getUser().getId().equals(userService.getPrincipleUserDto().getId())) {
             throw new RuntimeException("Access denied. This record is not yours to modify.");

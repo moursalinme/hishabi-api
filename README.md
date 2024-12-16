@@ -63,7 +63,7 @@ overview of your financial landscape, showing your total earnings, expenses, and
 
     - Version: **Java 21**
 
-2. **Database** (if applicable)
+2. **Database**
     - Example: **PostgreSQL**
     - Ensure the database server is up and running.
 
@@ -98,6 +98,13 @@ overview of your financial landscape, showing your total earnings, expenses, and
 -   The application will start on port 8080 by default. Update application.yml if you need to change this.
 -   Access the Swagger API documentation route after starting the server. (You can add the exact URL for Swagger here).
 -   You can access the **API DOCS** by hitting the endpoint `/api/v1/swagger-ui/index.html`
+
+    <i> Here is a sample of api docs.</i> <br/>
+
+    <p align="center">
+
+      <img src="./assets/api-docs-ss.png" alt="App Screenshot" />
+    </p>
 
 ## Features
 

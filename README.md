@@ -7,6 +7,7 @@
 
 - [Table of Contents](#table-of-contents)
   - [About Hishab Rakhun](#about-hishab-rakhun)
+    - [Built With](#built-with)
   - [Getting Started](#getting-started)
     - [With Docker](#with-docker)
       - [Prerequisites](#prerequisites)
@@ -25,6 +26,13 @@ Unlike complex financial tools, this app makes recording income and expenses as 
 Capture every financial moment with ease – log how you earn money, when you receive it, and through what transactions.
 Similarly, track your spending with rich, contextual details. Hishab Rakhun automatically generates a comprehensive
 overview of your financial landscape, showing your total earnings, expenses, and remaining balance in real-time.
+
+### Built With
+
+-   Java (v-21)
+-   Spring Boot (v-3.3.6)
+-   Postgres DB (v-17)
+-   Springdoc OpenApi (Web MVC v-2.2.0)
 
 ## Getting Started
 
@@ -118,6 +126,4 @@ overview of your financial landscape, showing your total earnings, expenses, and
 
 Hishab Rakhun is your financial companion on the path to financial clarity and control. By simplifying complex financial tracking, we empower you to make informed decisions, understand your spending patterns, and take charge of your financial future.
 
-Whether you're a student managing a tight budget, a freelancer tracking irregular income, or a professional looking to optimize your finances, Hishab Rakhun adapts to your unique financial journey. Every transaction tells a story, and we're here to help you read it clearly.
-
-**Start your financial transformation today. Track, understand, and grow with Hishab Rakhun.**
+Whether you're a student managing a tight budget, a freelancer tracking irregular income, or a professional looking to optimize your finances, Hishab Rakhun adapts to your unique financial journey.
